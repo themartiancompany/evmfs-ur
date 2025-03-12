@@ -72,6 +72,7 @@ depends=(
   "libcrash-bash"
   "libcrash-js"
   "libevm"
+  "node-run"
 )
 if [[ "${_os}" != "GNU/Linux" ]] && \
    [[ "${_os}" == "Android" ]]; then
