@@ -32,10 +32,12 @@ _evmfs_available="$( \
     -v \
     "evmfs" || \
     true)"
-if [[ "${_evmfs_available}" != "" ]]; then
-  _evmfs="true"
-elif [[ "${_evmfs_available}" == "" ]]; then
-  _evmfs="false"
+if [[ ! -v "_evmfs" ]]; then
+  if [[ "${_evmfs_available}" != "" ]]; then
+    _evmfs="true"
+  elif [[ "${_evmfs_available}" == "" ]]; then
+    _evmfs="false"
+  fi
 fi
 _offline="false"
 _git="false"
@@ -45,8 +47,8 @@ _proj="hip"
 _py="python"
 _pkg=evmfs
 pkgname="${_pkg}"
-pkgver="0.0.0.0.0.0.0.0.1.1.1.1.1.1.1.1.1.1"
-_commit="5cbc9740fd594c9d94967f793667ec4957af2971"
+pkgver="0.0.0.0.0.0.0.1.1.1"
+_commit="2aeef60c131d98548c9b09cfa127b7108178d35b"
 pkgrel=1
 _pkgdesc=(
   "Reference implementation of the"
@@ -117,10 +119,10 @@ fi
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
-_archive_sum='865aa12f9463f515d393a3ed09d1737236495a8cabb452f9d8b9c6b1922430ee'
+_archive_sum="834fb5d11b9bdbee6d9809f13384232dcf2578fcc0a845d3604a6a4cc5385065"
 _evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
 _evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
-_archive_sig_sum="ed75fd42b84d6d9bba18161daf87a3b4de9a7b5f2c8823dc1e85e895226afc37"
+_archive_sig_sum="0cf9073b79001ef763097dca6dad7f677dcf50ac5093cdd9e4c89d0048d3c3a1"
 _archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
 _archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
 if [[ "${_evmfs}" == true ]]; then
