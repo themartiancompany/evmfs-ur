@@ -332,6 +332,9 @@ package_evmfs-docs() {
   make \
     "${_make_opts[@]}" \
     install-docs
+  make \
+    "${_make_opts[@]}" \
+    install-man
 }
 
 # vim: ft=sh syn=sh et
