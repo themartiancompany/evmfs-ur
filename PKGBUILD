@@ -190,22 +190,25 @@ build() {
 }
 
 package() {
+  local \
+    _make_opts=()
+  _make_opts=(
+    DESTDIR="${pkgdir}"
+    PREFIX='/usr'
+  )
   cd \
     "${_tarname}"
   make \
-    DESTDIR="${pkgdir}" \
-    PREFIX="/usr" \
+    "${_make_opts[@]}" \
     install
   if [[ "${_solc}" == "true" ]]; then
     make \
-      DESTDIR="${pkgdir}" \
-      PREFIX="/usr" \
+      "${_make_opts[@]}" \
       install-contracts-deployments-solc
   fi
   if [[ "${_hardhat}" == "true" ]]; then
     make \
-      DESTDIR="${pkgdir}" \
-      PREFIX="/usr" \
+      "${_make_opts[@]}" \
       install-contracts-deployments-hardhat
   fi
 }
