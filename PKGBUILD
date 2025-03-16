@@ -98,7 +98,14 @@ if [[ "${_os}" != "GNU/Linux" ]] && \
   depends+=(
   )
 fi
+_evmfs_zenity_optdepends=(
+  "evmfs-zenity:"
+    "simple graphical"
+    "interface front-end written"
+    "in Bash with Zenity."
+)
 optdepends=(
+  "${_evmfs_zenity_optdepends[@]}" 
 )
 if [[ "${_os}" == 'Android' ]]; then
   optdepends+=(
