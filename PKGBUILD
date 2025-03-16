@@ -136,9 +136,10 @@ source=()
 sha256sums=()
 _url="${url}"
 _tag="${_commit}"
+_docs_tag="${_docs_commit}"
 _tag_name="commit"
 _tarname="${_pkg}-${_tag}"
-_docname="${_pkg}-docs-${_tag}"
+_docname="${_pkg}-docs-${_docs_tag}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
@@ -186,11 +187,13 @@ elif [[ "${_git}" == true ]]; then
   )
   _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
   _sum="SKIP"
-  _docs_src="${_docname}::git+${_docs_url}#${_tag_name}=${_docs_commit}"
+  _docs_src="${_docname}::git+${_docs_url}#${_tag_name}=${_docs_tag}"
 elif [[ "${_git}" == false ]]; then
   if [[ "${_tag_name}" == 'pkgver' ]]; then
     _src="${_tarname}.tar.gz::${_url}/archive/refs/tags/${_tag}.tar.gz"
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
+    _docs_src="${_docname}.tar.gz::${_docs_url}/archive/refs/tags/${_docs_tag}.tar.gz"
+    _sum="Who cares, fetching stuff using tags with git is unsecure."
   elif [[ "${_tag_name}" == "commit" ]]; then
     _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
     _sum="${_archive_sum}"
