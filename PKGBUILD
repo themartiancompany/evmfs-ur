@@ -331,7 +331,7 @@ package_evmfs-docs() {
     "${_tarname}"
   make \
     "${_make_opts[@]}" \
-    install-docs
+    install-doc
   make \
     "${_make_opts[@]}" \
     install-man
