@@ -155,7 +155,7 @@ _archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
 _docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
 _evmfs_docs_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_docs_sum}"
 _evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
-_docs_sig_sum="95d693b34d09574d6ddf775ffdb272a9de5198f865aa79f6065178c4463b840d"
+_docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
 _docs_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_docs_sig_sum}"
 _docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
 if [[ "${_evmfs}" == true ]]; then
