@@ -198,7 +198,6 @@ elif [[ "${_git}" == false ]]; then
     _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
     _sum="${_archive_sum}"
     _docs_src="${_docname}.zip::${_docs_url}/archive/${_docs_commit}.zip"
-    _sum="${_docs_sum}"
   fi
 fi
 source+=(
