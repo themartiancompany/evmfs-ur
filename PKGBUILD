@@ -105,7 +105,7 @@ _evmfs_zenity_optdepends=(
     "in Bash with Zenity."
 )
 optdepends=(
-  "${_evmfs_zenity_optdepends[@]}" 
+  "${_evmfs_zenity_optdepends[*]}" 
 )
 if [[ "${_os}" == 'Android' ]]; then
   optdepends+=(
