@@ -41,14 +41,30 @@ if [[ ! -v "_evmfs" ]]; then
 fi
 _offline="false"
 _git="false"
+_docs="true"
+_contracts="true"
 _solc="true"
 _hardhat="true"
 _proj="hip"
 _py="python"
 _pkg=evmfs
-pkgname="${_pkg}"
-pkgver="0.0.0.0.0.0.0.1.1.1"
-_commit="2aeef60c131d98548c9b09cfa127b7108178d35b"
+pkgbase="${_pkg}"
+pkgname=(
+  "${_pkg}"
+)
+if [[ "${_docs}" == "true" ]]; then
+  pkgname+=(
+    "${_pkg}-contracts"
+  )
+fi
+if [[ "${_docs}" == "true" ]]; then
+  pkgname+=(
+    "${_pkg}-docs"
+  )
+fi
+pkgver="0.0.0.0.0.0.0.1.1.1.1.1"
+_commit="a125307bae72a9720f4d3bc0a6bbbc60f49a2cc1"
+_docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
   "Reference implementation of the"
@@ -63,7 +79,8 @@ arch=(
 )
 _http="https://github.com"
 _ns="themartiancompany"
-url="${_http}/${_ns}/${pkgname}"
+url="${_http}/${_ns}/${_pkg}"
+_docs_url="${url}-docs"
 license=(
   'AGPL3'
 )
@@ -88,21 +105,29 @@ if [[ "${_os}" == 'Android' ]]; then
   )
 fi
 makedepends=(
-  'evm-make'
   'make'
-  "${_py}-docutils"
 )
-if [[ "${_solc}" == "true" ]]; then
+if [[ "${_docs}" == "true" ]]; then
   makedepends+=(
-    "solidity=0.7.5"
-    "solidity=0.8.24"
-    "solidity=0.8.28"
+    "${_py}-docutils"
   )
 fi
-if [[ "${_hardhat}" == "true" ]]; then
+if [[ "${_contracts}" == "true" ]]; then
   makedepends+=(
-    "hardhat"
+    'evm-make'
   )
+  if [[ "${_solc}" == "true" ]]; then
+    makedepends+=(
+      "solidity=0.7.5"
+      "solidity=0.8.24"
+      "solidity=0.8.28"
+    )
+  fi
+  if [[ "${_hardhat}" == "true" ]]; then
+    makedepends+=(
+      "hardhat"
+    )
+  fi
 fi
 checkdepends=(
   "shellcheck"
@@ -112,7 +137,8 @@ sha256sums=()
 _url="${url}"
 _tag="${_commit}"
 _tag_name="commit"
-_tarname="${pkgname}-${_tag}"
+_tarname="${_pkg}-${_tag}"
+_docname="${_pkg}-docs-${_tag}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
@@ -120,29 +146,47 @@ _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
 _archive_sum="834fb5d11b9bdbee6d9809f13384232dcf2578fcc0a845d3604a6a4cc5385065"
+_archive_sum="c23d0ccc32583ea048d9170f7f0aff52b48d03c3a4c61ec3db7469dddb5b40e2"
 _evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
 _evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
 _archive_sig_sum="0cf9073b79001ef763097dca6dad7f677dcf50ac5093cdd9e4c89d0048d3c3a1"
+_archive_sig_sum="b23ccd6a824db81962f8f6208243de7e88cb1b65cce23244496f96d7d0807165"
 _archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
 _archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
+_docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
+_evmfs_docs_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_docs_sum}"
+_evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
+_docs_sig_sum="95d693b34d09574d6ddf775ffdb272a9de5198f865aa79f6065178c4463b840d"
+_docs_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_docs_sig_sum}"
+_docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
 if [[ "${_evmfs}" == true ]]; then
   makedepends+=(
     "evmfs"
   )
   _src="${_evmfs_archive_src}"
   _sum="${_archive_sum}"
+  _docs_src="${_evmfs_docs_src}"
   source+=(
     "${_archive_sig_src}"
   )
   sha256sums+=(
     "${_archive_sig_sum}"
   )
+  if [[ "${_docs}" == "true" ]]; then
+    source+=(
+      "${_docs_sig_src}"
+    )
+    sha256sums+=(
+      "${_docs_sig_sum}"
+    )
+  fi
 elif [[ "${_git}" == true ]]; then
   makedepends+=(
     "git"
   )
   _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
   _sum="SKIP"
+  _docs_src="${_docname}::git+${_docs_url}#${_tag_name}=${_docs_commit}"
 elif [[ "${_git}" == false ]]; then
   if [[ "${_tag_name}" == 'pkgver' ]]; then
     _src="${_tarname}.tar.gz::${_url}/archive/refs/tags/${_tag}.tar.gz"
@@ -150,6 +194,8 @@ elif [[ "${_git}" == false ]]; then
   elif [[ "${_tag_name}" == "commit" ]]; then
     _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
     _sum="${_archive_sum}"
+    _docs_src="${_docname}.zip::${_docs_url}/archive/${_docs_commit}.zip"
+    _sum="${_docs_sum}"
   fi
 fi
 source+=(
@@ -158,6 +204,15 @@ source+=(
 sha256sums+=(
   "${_sum}"
 )
+if [[ "${_docs}" == "true" ]]; then
+  source+=(
+    "${_docs_src}"
+  )
+  sha256sums+=(
+    "${_docs_sum}"
+  )
+fi
+
 validpgpkeys=(
   # Truocolo <truocolo@aol.com>
   '97E989E6CF1D2C7F7A41FF9F95684DBE23D6A3E9'
@@ -165,6 +220,39 @@ validpgpkeys=(
   # Truocolo (kf) <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
   'F690CBC17BD1F53557290AF51FC17D540D0ADEED'
 )
+
+prepare() {
+  cd \
+    "${_tarname}"
+  if [[ "${_docs}" == "true" ]]; then
+    if [[ "${_git}" == "true" ]]; then
+      git \
+        submodule \
+          init
+      git \
+        submodule \
+          set-url \
+            "docs" \
+            "${srcdir}/${_docname}"
+      git \
+        -c \
+          protocol.file.allow="always" \
+        -c \
+          protocol.allow="never" \
+        submodule \
+          update
+    elif [[ "${_git}" == "false" ]]; then
+      rm \
+        -rf \
+        "docs" || \
+        true
+      cp \
+        -r \
+        "${srcdir}/${_docname}" \
+        "docs"
+    fi
+  fi
+}
 
 check() {
   cd \
@@ -189,7 +277,7 @@ build() {
   fi
 }
 
-package() {
+package_evmfs-contracts() {
   local \
     _make_opts=()
   _make_opts=(
@@ -200,7 +288,7 @@ package() {
     "${_tarname}"
   make \
     "${_make_opts[@]}" \
-    install
+    install-contracts
   if [[ "${_solc}" == "true" ]]; then
     make \
       "${_make_opts[@]}" \
@@ -211,6 +299,37 @@ package() {
       "${_make_opts[@]}" \
       install-contracts-deployments-hardhat
   fi
+}
+
+package_evmfs() {
+  local \
+    _make_opts=()
+  depends+=(
+    "${_pkg}-contracts"
+  )
+  _make_opts=(
+    DESTDIR="${pkgdir}"
+    PREFIX='/usr'
+  )
+  cd \
+    "${_tarname}"
+  make \
+    "${_make_opts[@]}" \
+    install-scripts
+}
+
+package_evmfs-docs() {
+  local \
+    _make_opts=()
+  _make_opts=(
+    DESTDIR="${pkgdir}"
+    PREFIX='/usr'
+  )
+  cd \
+    "${_tarname}"
+  make \
+    "${_make_opts[@]}" \
+    install-docs
 }
 
 # vim: ft=sh syn=sh et
