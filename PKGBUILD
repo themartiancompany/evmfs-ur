@@ -265,15 +265,17 @@ check() {
 build() {
   cd \
     "${_tarname}"
-  if [[ "${_solc}" == "true" ]]; then
-    SOLIDITY_COMPILER_BACKEND="solc" \
-    make \
-      all
-  fi
-  if [[ "${_hardhat}" == "true" ]]; then
-    SOLIDITY_COMPILER_BACKEND="hardhat" \
-    make \
-     all
+  if [[ "${_contracts}" == "true" ]]; then
+    if [[ "${_solc}" == "true" ]]; then
+      SOLIDITY_COMPILER_BACKEND="solc" \
+      make \
+        all
+    fi
+    if [[ "${_hardhat}" == "true" ]]; then
+      SOLIDITY_COMPILER_BACKEND="hardhat" \
+      make \
+       all
+    fi
   fi
 }
 
