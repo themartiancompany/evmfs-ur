@@ -42,7 +42,9 @@ fi
 _offline="false"
 _git="false"
 _docs="true"
-_contracts="true"
+if [[ ! -v "_contracts" ]]; then
+  _contracts="true"
+fi
 _solc="true"
 _hardhat="true"
 _proj="hip"
@@ -63,7 +65,7 @@ if [[ "${_docs}" == "true" ]]; then
   )
 fi
 pkgver="0.0.0.0.0.0.0.1.1.1.1.1"
-_commit="a125307bae72a9720f4d3bc0a6bbbc60f49a2cc1"
+_commit="f57a842c93ea025f834b2c48cbda60982eb77799"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
