@@ -64,8 +64,8 @@ if [[ "${_docs}" == "true" ]]; then
     "${_pkg}-docs"
   )
 fi
-pkgver="0.0.0.0.0.0.0.1.1.1.1.1.1"
-_commit="f2a8ea951ce96d863b0f50c122410019b3ec5ac6"
+pkgver="0.0.0.0.0.0.0.1.1.1.1.1.1.1"
+_commit="c1c1d4665837f4796dd083b2149be0fbb5a2da5d"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
@@ -155,10 +155,10 @@ fi
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
-_archive_sum="058ec3abe415af84dd22296fb40df3040d57bb5570db73b2b815191e9456b98c"
+_archive_sum="d4d8e7c065663007adf3f402bb9ba8bdab36f7cce9a8993b153ffe027bf2fe5b"
 _evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
 _evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
-_archive_sig_sum="4f7ee768ae1d944786b043129a565a81a6854af3ee7137171d31edfa4ca50f77"
+_archive_sig_sum="b8e66a1a759e04374bd961acf640aa5db4f60f1d0e20df1df39dc05bf23590e5"
 _archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
 _archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
 _docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
