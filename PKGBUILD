@@ -65,8 +65,7 @@ if [[ "${_docs}" == "true" ]]; then
   )
 fi
 pkgver="0.0.0.0.0.0.0.1.1.1.1.1.1"
-_commit="ff5d0d253a773cf9530aa2aafae70f2943aba9ec"
-_commit="f57a842c93ea025f834b2c48cbda60982eb77799"
+_commit="916ae1fa514315b7e00e9782602a018dac91108d"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
