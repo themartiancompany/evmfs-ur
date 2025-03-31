@@ -65,7 +65,7 @@ if [[ "${_docs}" == "true" ]]; then
   )
 fi
 pkgver="0.0.0.0.0.0.0.1.1.1.1.1.1"
-_commit="916ae1fa514315b7e00e9782602a018dac91108d"
+_commit="0ee59b75fe68a289397dc38aa812fc981a2fde9a"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
@@ -321,6 +321,7 @@ package_evmfs() {
   _make_opts=(
     DESTDIR="${pkgdir}"
     PREFIX='/usr'
+    VERBOSE=1
   )
   cd \
     "${_tarname}"
