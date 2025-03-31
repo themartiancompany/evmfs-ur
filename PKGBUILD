@@ -64,13 +64,14 @@ if [[ "${_docs}" == "true" ]]; then
     "${_pkg}-docs"
   )
 fi
-pkgver="0.0.0.0.0.0.0.1.1.1.1.1"
+pkgver="0.0.0.0.0.0.0.1.1.1.1.1.1"
+_commit="ff5d0d253a773cf9530aa2aafae70f2943aba9ec"
 _commit="f57a842c93ea025f834b2c48cbda60982eb77799"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
   "Reference implementation of the"
-  "Ethereum Virtual Machine file system,"
+  "Ethereum Virtual Machine file system (EVMFS),"
   "the internet uncensorable, unalterable,"
   "undeletable, distributed, unstoppable"
   "file system and network protocol."
@@ -155,10 +156,10 @@ fi
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
-_archive_sum="eca4c5756a771657bc2a3676dabe479c980b761b65dde830ca5cebef3cb0d29f"
+_archive_sum="058ec3abe415af84dd22296fb40df3040d57bb5570db73b2b815191e9456b98c"
 _evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
 _evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
-_archive_sig_sum="64e52a709505f22c50a3919f7145bd5bab50519ef1aa27909c31c9c2733ae534"
+_archive_sig_sum="4f7ee768ae1d944786b043129a565a81a6854af3ee7137171d31edfa4ca50f77"
 _archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
 _archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
 _docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
