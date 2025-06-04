@@ -87,6 +87,7 @@ license=(
   'AGPL3'
 )
 depends=(
+  "awk"
   "evm-contracts-tools"
   "evm-wallet"
   "encoding-tools"
