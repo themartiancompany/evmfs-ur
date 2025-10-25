@@ -19,10 +19,13 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
-# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
-# Maintainer: Pellegrino Prevete (dvorak) <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+# Maintainers:
+#  Truocolo
+#    <truocolo@aol.com>
+#    <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+#  Pellegrino Prevete (tallero)
+#    <pellegrinoprevete@gmail.com>
+#    <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 
 _os="$( \
   uname \
@@ -39,11 +42,24 @@ if [[ ! -v "_evmfs" ]]; then
     _evmfs="false"
   fi
 fi
-_offline="false"
-_git="false"
-_docs="true"
+if [[ ! -v "_offline" ]]; then
+  _offline="false"
+fi
+if [[ ! -v "_git" ]]; then
+  _git="false"
+fi
+if [[ ! -v "_git_http" ]]; then
+  _git_http="false"
+fi
+if [[ ! -v "_docs" ]]; then
+  _docs="true"
+fi
 if [[ ! -v "_contracts" ]]; then
   _contracts="true"
+fi
+_archive_format="tar.gz"
+if [[ "${_git_http}" == "github" ]]; then
+  _archive_format="zip"
 fi
 _solc="true"
 _hardhat="true"
@@ -64,8 +80,8 @@ if [[ "${_docs}" == "true" ]]; then
     "${_pkg}-docs"
   )
 fi
-pkgver="0.0.0.0.0.0.0.1.1.1.1.1.1.1"
-_commit="c1c1d4665837f4796dd083b2149be0fbb5a2da5d"
+pkgver="0.0.0.0.0.0.0.1.1.1"
+_commit="8f9a3ffd961cc84eaa6534dc80f05a5998bb044d"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
 pkgrel=1
 _pkgdesc=(
@@ -79,7 +95,7 @@ pkgdesc="${_pkgdesc[*]}"
 arch=(
   'any'
 )
-_http="https://github.com"
+_http="https://${_git_http}.com"
 _ns="themartiancompany"
 url="${_http}/${_ns}/${_pkg}"
 _docs_url="${url}-docs"
@@ -107,7 +123,20 @@ _evmfs_zenity_optdepends=(
     "interface front-end written"
     "in Bash with Zenity."
 )
+_evmfs_docs_optdepends=(
+  "${_pkg}-docs:"
+    "EVMFS documentation and manuals."
+)
+_evmfs_docs_ref_optdepends=(
+  "${_pkg}:"
+    "package this documentation package pertains."
+)
+_evmfs_contracts_ref_optdepends=(
+  "${_pkg}:"
+    "Reference EVMFS implementation."
+)
 optdepends=(
+  "${_evmfs_docs_optdepends[*]}"
   "${_evmfs_zenity_optdepends[*]}" 
 )
 if [[ "${_os}" == 'Android' ]]; then
@@ -149,37 +178,41 @@ _tag="${_commit}"
 _docs_tag="${_docs_commit}"
 _tag_name="commit"
 _tarname="${_pkg}-${_tag}"
+_tarfile="${_tarname}.${_archive_format}"
 _docname="${_pkg}-docs-${_docs_tag}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
+_sum="bd4577c7f3300aaa85d50387a8c7d95171467027c3350c9077fbc79e122a3983"
+_sig_sum="ca211a4426bbb2dda33df500cb397b807142388e12f4e4d5f06d0dd2cfdd1402"
+_docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
+_docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
+# Truocolo
+_evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
+# Dvorak
+_evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
-_evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
-_archive_sum="d4d8e7c065663007adf3f402bb9ba8bdab36f7cce9a8993b153ffe027bf2fe5b"
-_evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
-_evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
-_archive_sig_sum="b8e66a1a759e04374bd961acf640aa5db4f60f1d0e20df1df39dc05bf23590e5"
-_archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
-_archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
-_docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
-_evmfs_docs_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_docs_sum}"
+_evmfs_dir="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/"
+_evmfs_uri="${_evmfs_dir}/${_sum}"
+_evmfs_src="${_tarfile}::${_evmfs_uri}"
+_sig_uri="${_evmfs_dir}/${_sig_sum}"
+_sig_src="${_tarfile}.sig::${_sig_uri}"
+_evmfs_docs_uri="${_evmfs_dir}/${_docs_sum}"
 _evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
-_docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
-_docs_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_docs_sig_sum}"
+_docs_sig_uri="${_evmfs_dir}/${_docs_sig_sum}"
 _docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
 if [[ "${_evmfs}" == true ]]; then
   makedepends+=(
     "evmfs"
   )
-  _src="${_evmfs_archive_src}"
-  _sum="${_archive_sum}"
+  _src="${_evmfs_src}"
   _docs_src="${_evmfs_docs_src}"
   source+=(
-    "${_archive_sig_src}"
+    "${_sig_src}"
   )
   sha256sums+=(
-    "${_archive_sig_sum}"
+    "${_sig_sum}"
   )
   if [[ "${_docs}" == "true" ]]; then
     source+=(
@@ -198,13 +231,13 @@ elif [[ "${_git}" == true ]]; then
   _docs_src="${_docname}::git+${_docs_url}#${_tag_name}=${_docs_tag}"
 elif [[ "${_git}" == false ]]; then
   if [[ "${_tag_name}" == 'pkgver' ]]; then
-    _src="${_tarname}.tar.gz::${_url}/archive/refs/tags/${_tag}.tar.gz"
+    _src="${_tarfile}::${_url}/archive/refs/tags/${_tag}.tar.gz"
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
-    _docs_src="${_docname}.tar.gz::${_docs_url}/archive/refs/tags/${_docs_tag}.tar.gz"
+    _docs_src="${_docname}.${_archive_format}::${_docs_url}/archive/refs/tags/${_docs_tag}.tar.gz"
     _sum="Who cares, fetching stuff using tags with git is unsecure."
   elif [[ "${_tag_name}" == "commit" ]]; then
-    _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
-    _sum="${_archive_sum}"
+    _uri="${_url}/archive/${_commit}.${_archive_format}"
+    _src="${_tarfile}::${_uri}"
     _docs_src="${_docname}.zip::${_docs_url}/archive/${_docs_commit}.zip"
   fi
 fi
@@ -292,7 +325,11 @@ build() {
 package_evmfs-contracts() {
   local \
     _make_opts=()
-  _make_opts=(
+  depends=()
+  optdepends=(
+    "${_evmfs_contracts_ref_optdepends[*]}"
+  )
+  _make_opts+=(
     DESTDIR="${pkgdir}"
     PREFIX='/usr'
   )
@@ -311,6 +348,11 @@ package_evmfs-contracts() {
       "${_make_opts[@]}" \
       install-contracts-deployments-hardhat
   fi
+  install \
+    -Dm644 \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_evmfs() {
@@ -319,7 +361,7 @@ package_evmfs() {
   depends+=(
     "${_pkg}-contracts"
   )
-  _make_opts=(
+  _make_opts+=(
     DESTDIR="${pkgdir}"
     PREFIX='/usr'
     VERBOSE=1
@@ -329,12 +371,21 @@ package_evmfs() {
   make \
     "${_make_opts[@]}" \
     install-scripts
+  install \
+    -Dm644 \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 package_evmfs-docs() {
   local \
     _make_opts=()
-  _make_opts=(
+  depends=()
+  optdepends=(
+    "${_evmfs_docs_ref_optdepends[*]}"
+  )
+  _make_opts+=(
     DESTDIR="${pkgdir}"
     PREFIX='/usr'
   )
@@ -342,10 +393,13 @@ package_evmfs-docs() {
     "${_tarname}"
   make \
     "${_make_opts[@]}" \
-    install-doc
-  make \
-    "${_make_opts[@]}" \
+    install-doc \
     install-man
+  install \
+    -Dm644 \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
