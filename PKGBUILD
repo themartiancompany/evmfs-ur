@@ -52,7 +52,7 @@ if [[ ! -v "_git" ]]; then
   _git="false"
 fi
 if [[ ! -v "_git_http" ]]; then
-  _git_http="github"
+  _git_http="gitlab"
 fi
 if [[ ! -v "_docs" ]]; then
   _docs="true"
@@ -217,10 +217,12 @@ _sum="bd4577c7f3300aaa85d50387a8c7d95171467027c3350c9077fbc79e122a3983"
 _sig_sum="ca211a4426bbb2dda33df500cb397b807142388e12f4e4d5f06d0dd2cfdd1402"
 _docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
 _docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
-_github_sum=""
-_github_sig_sum=""
-_gitlab_sum=""
-_gitlab_sig_sum=""
+_bundle_sum="SKIP"
+_bundle_sig_sum="SKIP"
+_github_commit_sum="fea6689e9f774defd9df21e8156aa025f01ac9de55241dd3de22fe4852cc92bd"
+_github_commit_sig_sum="a43d86d8a666c1930a5b3caf16cc17f9e463970377b45c261927aa2132378878"
+_github_pkgver_sum="SKIP"
+_github_pkgver_sig_sum="SKIP"
 # Truocolo
 _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
 # Dvorak
@@ -240,8 +242,13 @@ if [[ "${_evmfs}" == "true" ]]; then
   if [[ "${_git}" == "false" ]]; then
     _src="${_evmfs_src}"
     if [[ "${_git_http}" == "github" ]]; then
-      _sig_src="${_github_sig_src}"
-      _sig_sum="${_github_sig_sum}"
+      if [[ "${_tag_name}" == "pkgver" ]]; then
+        _sig_src="${_github_pkgver_sig_src}"
+        _sig_sum="${_github_pkgver_sig_sum}"
+      elif [[ "${_tag_name}" == "commit" ]]; then
+        _sig_src="${_github_commit_sig_src}"
+        _sig_sum="${_github_commit_sig_sum}"
+      fi
     fi
   elif [[ "${_git}" == "true" ]]; then
     _src="${_bundle_src}"
@@ -266,8 +273,8 @@ elif [[ "${_evmfs}" == "false" ]]; then
     _uri="${_url}#${_tag_name}=${_tag}?signed"
     _docs_uri="${_docs_url}#${_tag_name}=${_docs_tag}"
     _src="${_tarname}::git+${_uri}"
-    _sum="SKIP"
     _docs_src="${_docname}::git+${_docs_uri}"
+    _sum="SKIP"
     _docs_sum="SKIP"
   elif [[ "${_git}" == false ]]; then
     if [[ "${_tag_name}" == 'pkgver' ]]; then
@@ -276,10 +283,7 @@ elif [[ "${_evmfs}" == "false" ]]; then
         _tar_filename="${_tag}.${_archive_format}"
         _uri="${_url}/archive/refs/tags/${_tar_filename}"
         _docs_uri="${_docs_url}/archive/refs/tags/${_docs_filename}"
-        _src="${_tarfile}::${_uri}"
-        _docs_src="${_docfile}::${_docs_uri}"
-        _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
-        _docs_sum="ciao"
+        _sum="${_github_pkgver_sum}"
       fi
     elif [[ "${_tag_name}" == "commit" ]]; then
       if [[ "${_git_http}" == "github" ]]; then
@@ -287,11 +291,15 @@ elif [[ "${_evmfs}" == "false" ]]; then
         _docs_filename="${_docs_commit}.${_archive_format}"
         _uri="${_url}/archive/${_tar_filename}"
         _docs_uri="${_docs_url}/archive/${_docs_filename}"
-        _src="${_tarfile}::${_uri}"
-        _docs_src="${_docfile}::${_docs_url}/archive/${_docs_filename}"
-        _sum="ciao"
-        _docs_sum="ciao"
+        _sum="${_github_commit_sum}"
+      elif [[ "${_git_http}" == "gitlab" ]]; then
+        _tar_filename="${_pkg}-${_tag}.${_archive_format}"
+        _docs_filename="${_pkg}-docs-${_docs_tag}.${_archive_format}"
+        _uri="${_url}/-/archive/${_tag}/${_pkg}-${_tar_filename}"
+        _docs_uri="${_docs_url}/-/archive/${_docs_tag}/${_docs_filename}"
       fi
+      _src="${_tarfile}::${_uri}"
+      _docs_src="${_docfile}::${_docs_uri}"
     fi
   fi
 fi
