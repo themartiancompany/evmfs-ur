@@ -234,23 +234,28 @@ _evmfs_gitlab_commit_uri="${_evmfs_dir}/${_gitlab_commit_sum}"
 _evmfs_gitlab_commit_src="${_tarfile}::${_evmfs_gitlab_commit_uri}"
 _evmfs_github_commit_uri="${_evmfs_dir}/${_github_commit_sum}"
 _evmfs_github_commit_src="${_tarfile}::${_evmfs_github_commit_uri}"
-_emvfs_github_commit_sig_uri="${_evmfs_dir}/${_github_commit_sig_sum}"
-_emvfs_github_commit_sig_src="${_tarfile}.sig::${_github_commit_sig_uri}"
-_emvfs_gitlab_commit_sig_uri="${_evmfs_dir}/${_gitlab_commit_sig_sum}"
-_emvfs_gitlab_commit_sig_src="${_tarfile}.sig::${_gitlab_commit_sig_uri}"
+_evmfs_github_commit_sig_uri="${_evmfs_dir}/${_github_commit_sig_sum}"
+_evmfs_github_commit_sig_src="${_tarfile}.sig::${_evmfs_github_commit_sig_uri}"
+_evmfs_gitlab_commit_sig_uri="${_evmfs_dir}/${_gitlab_commit_sig_sum}"
+_evmfs_gitlab_commit_sig_src="${_tarfile}.sig::${_evmfs_gitlab_commit_sig_uri}"
 _evmfs_docs_github_commit_uri="${_evmfs_dir}/${_docs_github_commit_sum}"
 _evmfs_docs_github_commit_src="${_docname}.zip::${_evmfs_docs_github_commit_uri}"
 _evmfs_docs_github_commit_sig_uri="${_evmfs_dir}/${_docs_github_commit_sig_sum}"
-_evmfs_docs_github_sig_src="${_docname}.zip.sig::${_evmfs_docs_github_commit_sig_uri}"
+_evmfs_docs_github_commit_sig_src="${_docname}.zip.sig::${_evmfs_docs_github_commit_sig_uri}"
 if [[ "${_evmfs}" == "true" ]]; then
   if [[ "${_git}" == "false" ]]; then
     if [[ "${_git_http}" == "github" ]]; then
       if [[ "${_tag_name}" == "pkgver" ]]; then
-        _sig_src="${_github_pkgver_sig_src}"
+        _src="${_evmfs_github_pkg_src}"
+        _sum="${_gitlab_commit_sum}"
+        _sig_src="${_evmfs_github_pkgver_sig_src}"
         _sig_sum="${_github_pkgver_sig_sum}"
+        _docs_sum="${_docs_gitlab_commit_sum}"
+        _docs_sig_sum="${_docs_gitlab_commit_sig_sum}"
       elif [[ "${_tag_name}" == "commit" ]]; then
         _src="${_evmfs_github_commit_src}"
         _sum="${_github_commit_sum}"
+        _sig_src="${_evmfs_github_commit_sig_src}"
         _sig_sum="${_github_commit_sig_sum}"
         _docs_sum="${_docs_github_commit_sum}"
         _docs_sig_sum="${_docs_github_commit_sig_sum}"
@@ -258,6 +263,7 @@ if [[ "${_evmfs}" == "true" ]]; then
     elif [[ "${_git_http}" == "gitlab" ]]; then
       if [[ "${_tag_name}" == "commit" ]]; then
         _src="${_evmfs_gitlab_commit_src}"
+        _sig_src="${_evmfs_gitlab_commit_sig_src}"
         _sum="${_gitlab_commit_sum}"
         _sig_src="${_gitlab_commit_sig_src}"
         _sig_sum="${_gitlab_commit_sig_sum}"
@@ -269,6 +275,7 @@ if [[ "${_evmfs}" == "true" ]]; then
     _src="${_bundle_src}"
   fi
   _docs_src="${_evmfs_docs_github_commit_src}"
+  _docs_sig_src="${_evmfs_docs_github_commit_sig_src}"
   source+=(
     "${_sig_src}"
   )
