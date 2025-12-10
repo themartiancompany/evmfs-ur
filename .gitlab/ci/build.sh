@@ -170,7 +170,7 @@ _requirements() {
     "${_fur_opts[@]}" \
     "reallymakepkg"
   recipe-get \
-    -v
+    -v \
     "/home/user/${_pkgname}/PKGBUILD" \
     "_git_http" || \
     true
