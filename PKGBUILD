@@ -45,6 +45,9 @@ fi
 if [[ ! -v "_offline" ]]; then
   _offline="false"
 fi
+if [[ ! -v "_tag_name" ]]; then
+  _tag_name="commit"
+fi
 if [[ ! -v "_git" ]]; then
   _git="false"
 fi
@@ -57,9 +60,22 @@ fi
 if [[ ! -v "_contracts" ]]; then
   _contracts="true"
 fi
-_archive_format="tar.gz"
-if [[ "${_git_http}" == "github" ]]; then
-  _archive_format="zip"
+if [[ "${_git}" == "true" ]]; then
+  if [[ "${_evmfs}" == "true" ]]; then
+    _archive_format="bundle"
+  elif [[ "${_evmfs}" == "false" ]]; then
+    _archive_format="git"
+  fi
+elif [[ "${_git}" == "false" ]]; then
+  if [[ "${_git_http}" == "gitlab" ]]; then
+    _archive_format="tar.gz"
+  elif [[ "${_git_http}" == "github" ]]; then
+    if [[ "${_tag_name}" == "pkgver" ]]; then
+      _archive_format="tar.gz"
+    elif [[ "${_tag_name}" == "commit" ]]; then
+      _archive_format="zip"
+    fi
+  fi
 fi
 if [[ ! -v "_solc" ]]; then
   _solc="true"
@@ -150,6 +166,16 @@ fi
 makedepends=(
   'make'
 )
+if [[ "${_git}" == "true" ]]; then
+  makedepends+=(
+    "git"
+  )
+fi
+if [[ "${_evmfs}" == "true" ]]; then
+  makedepends+=(
+    "evmfs"
+  )
+fi
 if [[ "${_docs}" == "true" ]]; then
   makedepends+=(
     "${_py}-docutils"
@@ -180,10 +206,10 @@ sha256sums=()
 _url="${url}"
 _tag="${_commit}"
 _docs_tag="${_docs_commit}"
-_tag_name="commit"
 _tarname="${_pkg}-${_tag}"
 _tarfile="${_tarname}.${_archive_format}"
 _docname="${_pkg}-docs-${_docs_tag}"
+_docfile="${_docname}.${_archive_format}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
@@ -191,6 +217,10 @@ _sum="bd4577c7f3300aaa85d50387a8c7d95171467027c3350c9077fbc79e122a3983"
 _sig_sum="ca211a4426bbb2dda33df500cb397b807142388e12f4e4d5f06d0dd2cfdd1402"
 _docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
 _docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
+_github_sum=""
+_github_sig_sum=""
+_gitlab_sum=""
+_gitlab_sig_sum=""
 # Truocolo
 _evmfs_ns="0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b"
 # Dvorak
@@ -206,11 +236,16 @@ _evmfs_docs_uri="${_evmfs_dir}/${_docs_sum}"
 _evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
 _docs_sig_uri="${_evmfs_dir}/${_docs_sig_sum}"
 _docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
-if [[ "${_evmfs}" == true ]]; then
-  makedepends+=(
-    "evmfs"
-  )
-  _src="${_evmfs_src}"
+if [[ "${_evmfs}" == "true" ]]; then
+  if [[ "${_git}" == "false" ]]; then
+    _src="${_evmfs_src}"
+    if [[ "${_git_http}" == "github" ]]; then
+      _sig_src="${_github_sig_src}"
+      _sig_sum="${_github_sig_sum}"
+    fi
+  elif [[ "${_git}" == "true" ]]; then
+    _src="${_bundle_src}"
+  fi
   _docs_src="${_evmfs_docs_src}"
   source+=(
     "${_sig_src}"
@@ -226,23 +261,38 @@ if [[ "${_evmfs}" == true ]]; then
       "${_docs_sig_sum}"
     )
   fi
-elif [[ "${_git}" == true ]]; then
-  makedepends+=(
-    "git"
-  )
-  _src="${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
-  _sum="SKIP"
-  _docs_src="${_docname}::git+${_docs_url}#${_tag_name}=${_docs_tag}"
-elif [[ "${_git}" == false ]]; then
-  if [[ "${_tag_name}" == 'pkgver' ]]; then
-    _src="${_tarfile}::${_url}/archive/refs/tags/${_tag}.tar.gz"
-    _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
-    _docs_src="${_docname}.${_archive_format}::${_docs_url}/archive/refs/tags/${_docs_tag}.tar.gz"
-    _sum="Who cares, fetching stuff using tags with git is unsecure."
-  elif [[ "${_tag_name}" == "commit" ]]; then
-    _uri="${_url}/archive/${_commit}.${_archive_format}"
-    _src="${_tarfile}::${_uri}"
-    _docs_src="${_docname}.zip::${_docs_url}/archive/${_docs_commit}.zip"
+elif [[ "${_evmfs}" == "false" ]]; then
+  if [[ "${_git}" == "true" ]]; then
+    _uri="${_url}#${_tag_name}=${_tag}?signed"
+    _docs_uri="${_docs_url}#${_tag_name}=${_docs_tag}"
+    _src="${_tarname}::git+${_uri}"
+    _sum="SKIP"
+    _docs_src="${_docname}::git+${_docs_uri}"
+    _docs_sum="SKIP"
+  elif [[ "${_git}" == false ]]; then
+    if [[ "${_tag_name}" == 'pkgver' ]]; then
+      if [[ "${_git_http}" == "github" ]]; then
+        _docs_filename="${_docs_tag}.${_archive_format}"
+        _tar_filename="${_tag}.${_archive_format}"
+        _uri="${_url}/archive/refs/tags/${_tar_filename}"
+        _docs_uri="${_docs_url}/archive/refs/tags/${_docs_filename}"
+        _src="${_tarfile}::${_uri}"
+        _docs_src="${_docfile}::${_docs_uri}"
+        _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
+        _docs_sum="ciao"
+      fi
+    elif [[ "${_tag_name}" == "commit" ]]; then
+      if [[ "${_git_http}" == "github" ]]; then
+        _tar_filename="${_commit}.${_archive_format}"
+        _docs_filename="${_docs_commit}.${_archive_format}"
+        _uri="${_url}/archive/${_tar_filename}"
+        _docs_uri="${_docs_url}/archive/${_docs_filename}"
+        _src="${_tarfile}::${_uri}"
+        _docs_src="${_docfile}::${_docs_url}/archive/${_docs_filename}"
+        _sum="ciao"
+        _docs_sum="ciao"
+      fi
+    fi
   fi
 fi
 source+=(
