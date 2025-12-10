@@ -49,7 +49,7 @@ if [[ ! -v "_git" ]]; then
   _git="false"
 fi
 if [[ ! -v "_git_http" ]]; then
-  _git_http="false"
+  _git_http="github"
 fi
 if [[ ! -v "_docs" ]]; then
   _docs="true"
