@@ -270,23 +270,6 @@ _build() {
       "${_depend_target}"
     )
   done
-  _msg=(
-    "Installing makedepends"
-    "with pacman."
-  )
-  echo \
-    "${_msg[*]}"
-  pacman \
-    -S \
-    --noconfirm \
-      "${_makedepends[@]}" || \
-    true
-  _msg=(
-    "Installing makedepends"
-    "with pacman."
-  )
-  echo \
-    "${_msg[*]}"
   _fur_opts+=(
     -v
     -p
@@ -295,14 +278,25 @@ _build() {
   for _depend in "${_makedepends[@]}"; do
     _msg=(
       "Installing makedepend"
-      "'${_depend}' with"
-      "fur."
+      "'${_depend}'"
+      "with pacman."
     )
     echo \
       "${_msg[*]}"
-    fur \
-      "${_fur_opts[@]}" \
-      "reallymakepkg"
+    pacman \
+      -S \
+      --noconfirm \
+        "${_depend}" || \
+      _msg=(
+        "Installing makedepend"
+        "'${_depend}' with"
+        "fur."
+      ) && \
+      echo \
+        "${_msg[*]}" && \
+      fur \
+        "${_fur_opts[@]}" \
+        "${_depend}"
   done
   _cmd+=(
     "cd"
