@@ -186,6 +186,9 @@ _requirements() {
     "${ns}" \
     "${_pkgname}-docs-ur" \
     "${_docs_commit}"
+  recipe-get \
+    "/home/user/${_pkgname}/PKGBUILD" \
+    "_git_http"
   _git_http="$(
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
