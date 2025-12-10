@@ -170,30 +170,30 @@ _requirements() {
     "${_fur_opts[@]}" \
     "reallymakepkg"
   # ohoh
-  _commit="$(
-    recipe-get \
-      "/home/user/${_pkgname}/PKGBUILD" \
-      "_commit")"
-  _gl_dl_mini \
-    "${ns}" \
-    "${_pkgname}" \
-    "${_commit}"
-  _docs_commit="$(
-    recipe-get \
-      "/home/user/${_pkgname}/PKGBUILD" \
-      "_docs_commit")"
-  _gl_dl_mini \
-    "${ns}" \
-    "${_pkgname}-docs-ur" \
-    "${_docs_commit}"
-  recipe-get \
-    "/home/user/${_pkgname}/PKGBUILD" \
-    "_git_http"
-  _git_http="$(
-    recipe-get \
-      "/home/user/${_pkgname}/PKGBUILD" \
-      "_git_http")"
   if [[ "${_git_http}" == "gitlab" ]]; then
+    _commit="$( \
+      recipe-get \
+        "/home/user/${_pkgname}/PKGBUILD" \
+        "_commit")"
+    _gl_dl_mini \
+      "${ns}" \
+      "${_pkgname}" \
+      "${_commit}"
+    _docs_commit="$( \
+      recipe-get \
+        "/home/user/${_pkgname}/PKGBUILD" \
+        "_docs_commit")"
+    _gl_dl_mini \
+      "${ns}" \
+      "${_pkgname}-docs-ur" \
+      "${_docs_commit}"
+    recipe-get \
+      "/home/user/${_pkgname}/PKGBUILD" \
+      "_git_http"
+    _git_http="$(
+      recipe-get \
+        "/home/user/${_pkgname}/PKGBUILD" \
+        "_git_http")"
     cp \
       "${HOME}/${_pkgname}-${_commit}.tar.gz" \
       "/home/user/${_pkgname}"
