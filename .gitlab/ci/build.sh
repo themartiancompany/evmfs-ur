@@ -179,9 +179,9 @@ _requirements() {
     "${ns}" \
     "${_pkgname}" \
     "${_commit}"
-  # cp \
-  #   "${HOME}/${_pkgname}-${_commit}.tar.gz" \
-  #   "/home/user/${_pkgname}"
+  cp \
+    "${HOME}/${_pkgname}-${_commit}.tar.gz" \
+    "/home/user/${_pkgname}"
 }
 
 _build() {
