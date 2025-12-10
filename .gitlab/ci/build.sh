@@ -172,7 +172,8 @@ _requirements() {
   _git_http="$( \
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
-      "_git_http")"
+      "_git_http" || \
+      true)"
   # ohoh
   if [[ "${_git_http}" == "gitlab" ]]; then
     _commit="$( \
