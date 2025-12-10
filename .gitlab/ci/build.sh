@@ -290,16 +290,16 @@ _build() {
       true
   done
   _msg=(
-    "Installing makedepend"
-    "'${_depend}' with"
+    "Installing makedepends"
+    "'${_makedepends[*]}' with"
     "fur."
-  ) && \
+  )
   echo \
-    "${_msg[*]}" && \
+    "${_msg[*]}"
   fur \
     "${_fur_opts[@]}" \
     "${_makedepends[@]}" ||
-  true )
+  true
   _cmd+=(
     "cd"
       "${_home}/${_pkgname}" "&&"
