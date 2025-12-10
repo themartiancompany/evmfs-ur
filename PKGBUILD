@@ -237,7 +237,7 @@ _sig_src="${_tarfile}.sig::${_sig_uri}"
 _evmfs_docs_uri="${_evmfs_dir}/${_docs_github_commit_sum}"
 _evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
 _docs_sig_uri="${_evmfs_dir}/${_docs_github_commit_sig_sum}"
-_docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
+_docs_sig_src="${_docname}.zip.sig::${_docs_github_commit_sig_uri}"
 if [[ "${_evmfs}" == "true" ]]; then
   if [[ "${_git}" == "false" ]]; then
     _src="${_evmfs_src}"
