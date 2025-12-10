@@ -213,8 +213,8 @@ _docfile="${_docname}.${_archive_format}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
-_sum="bd4577c7f3300aaa85d50387a8c7d95171467027c3350c9077fbc79e122a3983"
-_sig_sum="ca211a4426bbb2dda33df500cb397b807142388e12f4e4d5f06d0dd2cfdd1402"
+_gitlab_commit_sum="bd4577c7f3300aaa85d50387a8c7d95171467027c3350c9077fbc79e122a3983"
+_gitlab_commit_sig_sum="ca211a4426bbb2dda33df500cb397b807142388e12f4e4d5f06d0dd2cfdd1402"
 _docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
 _docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
 _bundle_sum="SKIP"
@@ -230,9 +230,9 @@ _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_dir="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}"
-_evmfs_uri="${_evmfs_dir}/${_sum}"
+_evmfs_uri="${_evmfs_dir}/${_gitlab_commit_sum}"
 _evmfs_src="${_tarfile}::${_evmfs_uri}"
-_sig_uri="${_evmfs_dir}/${_sig_sum}"
+_sig_uri="${_evmfs_dir}/${_gitlab_commit_sig_sum}"
 _sig_src="${_tarfile}.sig::${_sig_uri}"
 _evmfs_docs_uri="${_evmfs_dir}/${_docs_sum}"
 _evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
@@ -248,6 +248,11 @@ if [[ "${_evmfs}" == "true" ]]; then
       elif [[ "${_tag_name}" == "commit" ]]; then
         _sig_src="${_github_commit_sig_src}"
         _sig_sum="${_github_commit_sig_sum}"
+      fi
+    if [[ "${_git_http}" == "gitlab" ]]; then
+      if [[ "${_tag_name}" == "commit" ]]; then
+        _sig_src="${_gitlab_commit_sig_src}"
+        _sig_sum="${_gitlab_commit_sig_sum}"
       fi
     fi
   elif [[ "${_git}" == "true" ]]; then
@@ -297,6 +302,7 @@ elif [[ "${_evmfs}" == "false" ]]; then
         _docs_filename="${_pkg}-docs-${_docs_tag}.${_archive_format}"
         _uri="${_url}/-/archive/${_tag}/${_pkg}-${_tar_filename}"
         _docs_uri="${_docs_url}/-/archive/${_docs_tag}/${_docs_filename}"
+        _sum="${_gitlab_commit_sum}"
       fi
       _src="${_tarfile}::${_uri}"
       _docs_src="${_docfile}::${_docs_uri}"
