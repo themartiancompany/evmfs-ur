@@ -306,6 +306,7 @@ elif [[ "${_evmfs}" == "false" ]]; then
         _uri="${_url}/archive/refs/tags/${_tar_filename}"
         _docs_uri="${_docs_url}/archive/refs/tags/${_docs_filename}"
         _sum="${_github_pkgver_sum}"
+        _docs_sum="${_docs_github_pkgver_sum}"
       fi
     elif [[ "${_tag_name}" == "commit" ]]; then
       if [[ "${_git_http}" == "github" ]]; then
@@ -314,12 +315,14 @@ elif [[ "${_evmfs}" == "false" ]]; then
         _uri="${_url}/archive/${_tar_filename}"
         _docs_uri="${_docs_url}/archive/${_docs_filename}"
         _sum="${_github_commit_sum}"
+        _docs_sum="${_docs_github_commit_sum}"
       elif [[ "${_git_http}" == "gitlab" ]]; then
         _tar_filename="${_pkg}-${_tag}.${_archive_format}"
         _docs_filename="${_pkg}-docs-${_docs_tag}.${_archive_format}"
         _uri="${_url}/-/archive/${_tag}/${_pkg}-${_tar_filename}"
         _docs_uri="${_docs_url}/-/archive/${_docs_tag}/${_docs_filename}"
         _sum="${_gitlab_commit_sum}"
+        _docs_sum="${_docs_gitlab_commit_sum}"
       fi
       _src="${_tarfile}::${_uri}"
       _docs_src="${_docfile}::${_docs_uri}"
