@@ -138,7 +138,10 @@ _requirements() {
   local \
     _fur_mini_opts=() \
     _fur_opts=() \
-    _pkgname
+    _pkgname \
+    _commit \
+    _docs_commit \
+    _git_http
   _pkgname="${pkg%-ur}"
   _fur_mini_opts+=(
     "${platform}"
@@ -167,15 +170,11 @@ _requirements() {
     "${_fur_opts[@]}" \
     "reallymakepkg"
   # ohoh
-  recipe-get \
-    -v \
-    "/home/user/${_pkgname}/PKGBUILD" \
-    "_commit"
-  _commit="$( \
+  _commit="$(
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
       "_commit")"
-  _docs_commit="$( \
+  _docs_commit="$(
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
       "_docs_commit")"
@@ -187,12 +186,18 @@ _requirements() {
     "${ns}" \
     "${_pkgname}-docs-ur" \
     "${_docs_commit}"
-  cp \
-    "${HOME}/${_pkgname}-${_commit}.tar.gz" \
-    "/home/user/${_pkgname}"
-  cp \
-    "${HOME}/${_pkgname}-docs-${_commit}.tar.gz" \
-    "/home/user/${_pkgname}"
+  _git_http="$(
+    recipe-get \
+      "/home/user/${_pkgname}/PKGBUILD" \
+      "_git_http")"
+  if [[ "${_git_http}" == "gitlab" ]]; then
+    cp \
+      "${HOME}/${_pkgname}-${_commit}.tar.gz" \
+      "/home/user/${_pkgname}"
+    cp \
+      "${HOME}/${_pkgname}-docs-${_commit}.tar.gz" \
+      "/home/user/${_pkgname}"
+  fi
 }
 
 _build() {
