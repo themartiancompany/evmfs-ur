@@ -52,7 +52,7 @@ if [[ ! -v "_git" ]]; then
   _git="false"
 fi
 if [[ ! -v "_git_http" ]]; then
-  _git_http="gitlab"
+  _git_http="github"
 fi
 if [[ ! -v "_docs" ]]; then
   _docs="true"
@@ -215,8 +215,8 @@ if [[ "${_offline}" == "true" ]]; then
 fi
 _gitlab_commit_sum="bd4577c7f3300aaa85d50387a8c7d95171467027c3350c9077fbc79e122a3983"
 _gitlab_commit_sig_sum="ca211a4426bbb2dda33df500cb397b807142388e12f4e4d5f06d0dd2cfdd1402"
-_docs_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
-_docs_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
+_docs_github_commit_sum="2a976cb13093cfcb23a14806ff27d1c37024be436da9f620005f4ff0c4fea729"
+_docs_github_commit_sig_sum="b31adea3fb4862dbb6316acad2cb2fecf133a19d2ed3d06a019914de38714199"
 _bundle_sum="SKIP"
 _bundle_sig_sum="SKIP"
 _github_commit_sum="fea6689e9f774defd9df21e8156aa025f01ac9de55241dd3de22fe4852cc92bd"
@@ -234,9 +234,9 @@ _evmfs_uri="${_evmfs_dir}/${_gitlab_commit_sum}"
 _evmfs_src="${_tarfile}::${_evmfs_uri}"
 _sig_uri="${_evmfs_dir}/${_gitlab_commit_sig_sum}"
 _sig_src="${_tarfile}.sig::${_sig_uri}"
-_evmfs_docs_uri="${_evmfs_dir}/${_docs_sum}"
+_evmfs_docs_uri="${_evmfs_dir}/${_docs_github_commit_sum}"
 _evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
-_docs_sig_uri="${_evmfs_dir}/${_docs_sig_sum}"
+_docs_sig_uri="${_evmfs_dir}/${_docs_github_commit_sig_sum}"
 _docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
 if [[ "${_evmfs}" == "true" ]]; then
   if [[ "${_git}" == "false" ]]; then
@@ -248,11 +248,15 @@ if [[ "${_evmfs}" == "true" ]]; then
       elif [[ "${_tag_name}" == "commit" ]]; then
         _sig_src="${_github_commit_sig_src}"
         _sig_sum="${_github_commit_sig_sum}"
+        _docs_sum="${_docs_github_commit_sum}"
+        _docs_sig_sum="${_docs_github_commit_sig_sum}"
       fi
     elif [[ "${_git_http}" == "gitlab" ]]; then
       if [[ "${_tag_name}" == "commit" ]]; then
         _sig_src="${_gitlab_commit_sig_src}"
         _sig_sum="${_gitlab_commit_sig_sum}"
+        _docs_sum="${_docs_gitlab_commit_sum}"
+        _docs_sig_sum="${_docs_gitlab_commit_sig_sum}"
       fi
     fi
   elif [[ "${_git}" == "true" ]]; then

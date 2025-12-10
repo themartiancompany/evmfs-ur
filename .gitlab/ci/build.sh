@@ -175,12 +175,23 @@ _requirements() {
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
       "_commit")"
+  _docs_commit="$( \
+    recipe-get \
+      "/home/user/${_pkgname}/PKGBUILD" \
+      "_docs_commit")"
   _gl_dl_mini \
     "${ns}" \
     "${_pkgname}" \
     "${_commit}"
+  _gl_dl_mini \
+    "${ns}" \
+    "${_pkgname}-docs-ur" \
+    "${_docs_commit}"
   cp \
     "${HOME}/${_pkgname}-${_commit}.tar.gz" \
+    "/home/user/${_pkgname}"
+  cp \
+    "${HOME}/${_pkgname}-docs-${_commit}.tar.gz" \
     "/home/user/${_pkgname}"
 }
 
