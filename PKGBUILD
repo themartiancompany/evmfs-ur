@@ -234,14 +234,14 @@ _evmfs_gitlab_commit_uri="${_evmfs_dir}/${_gitlab_commit_sum}"
 _evmfs_gitlab_commit_src="${_tarfile}::${_evmfs_gitlab_commit_uri}"
 _evmfs_github_commit_uri="${_evmfs_dir}/${_github_commit_sum}"
 _evmfs_github_commit_src="${_tarfile}::${_evmfs_github_commit_uri}"
-_github_commit_sig_uri="${_evmfs_dir}/${_github_commit_sig_sum}"
-_github_commit_sig_src="${_tarfile}.sig::${_github_commit_sig_uri}"
-_gitlab_commit_sig_uri="${_evmfs_dir}/${_gitlab_commit_sig_sum}"
-_gitlab_commit_sig_src="${_tarfile}.sig::${_gitlab_commit_sig_uri}"
-_evmfs_docs_uri="${_evmfs_dir}/${_docs_github_commit_sum}"
-_evmfs_docs_src="${_docname}.zip::${_evmfs_docs_uri}"
-_docs_sig_uri="${_evmfs_dir}/${_docs_github_commit_sig_sum}"
-_docs_sig_src="${_docname}.zip.sig::${_docs_sig_uri}"
+_emvfs_github_commit_sig_uri="${_evmfs_dir}/${_github_commit_sig_sum}"
+_emvfs_github_commit_sig_src="${_tarfile}.sig::${_github_commit_sig_uri}"
+_emvfs_gitlab_commit_sig_uri="${_evmfs_dir}/${_gitlab_commit_sig_sum}"
+_emvfs_gitlab_commit_sig_src="${_tarfile}.sig::${_gitlab_commit_sig_uri}"
+_evmfs_docs_github_commit_uri="${_evmfs_dir}/${_docs_github_commit_sum}"
+_evmfs_docs_github_commit_src="${_docname}.zip::${_evmfs_docs_github_commit_uri}"
+_evmfs_docs_github_commit_sig_uri="${_evmfs_dir}/${_docs_github_commit_sig_sum}"
+_evmfs_docs_github_sig_src="${_docname}.zip.sig::${_evmfs_docs_github_commit_sig_uri}"
 if [[ "${_evmfs}" == "true" ]]; then
   if [[ "${_git}" == "false" ]]; then
     if [[ "${_git_http}" == "github" ]]; then
@@ -268,7 +268,7 @@ if [[ "${_evmfs}" == "true" ]]; then
   elif [[ "${_git}" == "true" ]]; then
     _src="${_bundle_src}"
   fi
-  _docs_src="${_evmfs_docs_src}"
+  _docs_src="${_evmfs_docs_github_commit_src}"
   source+=(
     "${_sig_src}"
   )
