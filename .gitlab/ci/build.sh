@@ -288,18 +288,18 @@ _build() {
       --noconfirm \
         "${_depend}" || \
       true
+    _msg=(
+      "Installing makedepends"
+      "'${_makedepends[*]}' with"
+      "fur."
+    )
+    echo \
+      "${_msg[*]}"
+    fur \
+      "${_fur_opts[@]}" \
+      "${_depend}" ||
+    true
   done
-  _msg=(
-    "Installing makedepends"
-    "'${_makedepends[*]}' with"
-    "fur."
-  )
-  echo \
-    "${_msg[*]}"
-  fur \
-    "${_fur_opts[@]}" \
-    "${_makedepends[@]}" ||
-  true
   _cmd+=(
     "cd"
       "${_home}/${_pkgname}" "&&"
