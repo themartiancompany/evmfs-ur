@@ -247,11 +247,11 @@ if [[ "${_evmfs}" == "true" ]]; then
     if [[ "${_git_http}" == "github" ]]; then
       if [[ "${_tag_name}" == "pkgver" ]]; then
         _src="${_evmfs_github_pkg_src}"
-        _sum="${_gitlab_commit_sum}"
+        _sum="${_github_commit_sum}"
         _sig_src="${_evmfs_github_pkgver_sig_src}"
         _sig_sum="${_github_pkgver_sig_sum}"
-        _docs_sum="${_docs_gitlab_commit_sum}"
-        _docs_sig_sum="${_docs_gitlab_commit_sig_sum}"
+        _docs_sum="${_docs_github_commit_sum}"
+        _docs_sig_sum="${_docs_github_commit_sig_sum}"
       elif [[ "${_tag_name}" == "commit" ]]; then
         _src="${_evmfs_github_commit_src}"
         _sum="${_github_commit_sum}"
