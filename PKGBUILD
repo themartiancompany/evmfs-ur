@@ -249,7 +249,7 @@ if [[ "${_evmfs}" == "true" ]]; then
         _sig_src="${_github_commit_sig_src}"
         _sig_sum="${_github_commit_sig_sum}"
       fi
-    if [[ "${_git_http}" == "gitlab" ]]; then
+    elif [[ "${_git_http}" == "gitlab" ]]; then
       if [[ "${_tag_name}" == "commit" ]]; then
         _sig_src="${_gitlab_commit_sig_src}"
         _sig_sum="${_gitlab_commit_sig_sum}"
