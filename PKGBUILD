@@ -61,8 +61,12 @@ _archive_format="tar.gz"
 if [[ "${_git_http}" == "github" ]]; then
   _archive_format="zip"
 fi
-_solc="true"
-_hardhat="true"
+if [[ ! -v "_solc" ]]; then
+  _solc="true"
+fi
+if [[ ! -v "_hardhat" ]]; then
+  _hardhat="true"
+fi
 _proj="hip"
 _py="python"
 _pkg=evmfs
@@ -299,6 +303,9 @@ prepare() {
         "docs"
     fi
   fi
+  rm \
+    -rf \
+    "${srcdir}/${_tarname}/contracts/Path"
 }
 
 check() {
