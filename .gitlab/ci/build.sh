@@ -169,6 +169,11 @@ _requirements() {
   fur \
     "${_fur_opts[@]}" \
     "reallymakepkg"
+  recipe-get \
+    -v
+    "/home/user/${_pkgname}/PKGBUILD" \
+    "_git_http" || \
+    true
   _git_http="$( \
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
