@@ -270,13 +270,40 @@ _build() {
       "${_depend_target}"
     )
   done
-  echo uffa &>2
+  _msg=(
+    "Installing makedepends"
+    "with pacman."
+  )
+  echo \
+    "${_msg[*]}"
   pacman \
     -S \
     --noconfirm \
       "${_makedepends[@]}" || \
     true
-  echo "wattafacc" &>2
+  _msg=(
+    "Installing makedepends"
+    "with pacman."
+  )
+  echo \
+    "${_msg[*]}"
+  _fur_opts+=(
+    -v
+    -p
+      "pacman"
+  )
+  for _depend in "${_makedepends[@]}"; do
+    _msg=(
+      "Installing makedepend"
+      "'${_depend}' with"
+      "fur."
+    )
+    echo \
+      "${_msg[*]}"
+    fur \
+      "${_fur_opts[@]}" \
+      "reallymakepkg"
+  done
   _cmd+=(
     "cd"
       "${_home}/${_pkgname}" "&&"
