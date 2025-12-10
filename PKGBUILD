@@ -340,7 +340,6 @@ if [[ "${_docs}" == "true" ]]; then
     "${_docs_sum}"
   )
 fi
-
 validpgpkeys=(
   # Truocolo
   #   <truocolo@aol.com>
