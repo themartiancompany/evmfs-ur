@@ -141,7 +141,9 @@ _requirements() {
     _pkgname \
     _commit \
     _docs_commit \
-    _git_http
+    _git_http \
+    _fur_release_latest \
+    _fur_release_public
   _pkgname="${pkg%-ur}"
   _fur_mini_opts+=(
     "${platform}"
@@ -152,7 +154,7 @@ _requirements() {
   _fur_mini \
     "fur" \
     "${_fur_mini_opts[@]}"
-  _fur_release="0.0.1.1.1.1.1.1.1.1.1.1.1"
+  _fur_release_public="0.0.1.1.1.1.1.1.1.1.1.1.1"
   _fur_opts+=(
     -v
     -p
@@ -169,10 +171,11 @@ _requirements() {
   fur \
     "${_fur_opts[@]}" \
     "reallymakepkg"
+  _fur_release_latest="1.0.0.0.0.0.0.0.0.0.0.0.1.1-2"
   _gur_mini \
     "${ns}" \
     "fur" \
-    "1.0.0.0.0.0.0.0.0.0.0.0.1.1-1" || \
+    "${_fur_release_latest}" || \
   true
   recipe-get \
     -v \
