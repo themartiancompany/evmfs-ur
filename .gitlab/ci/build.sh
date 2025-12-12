@@ -59,7 +59,7 @@ _gur_mini() {
     "${_msg[*]}"
   _gl_dl_retrieve \
     "https://gitlab.com/api/v4/projects/${_ns}%2F${_pkg}-ur"
-  _project_id="$( \
+  _project_id="$(
     cat \
       "${HOME}/${_ns}%2F${_pkg}-ur" | \
       jq \
@@ -78,7 +78,7 @@ _gur_mini() {
   _url="${_api}/projects/${_project_id}/releases"
   _gl_dl_retrieve \
     "${_url}"
-  _urls=( $( \
+  _urls=( $(
     cat \
       "${HOME}/releases" | \
       jq \
@@ -88,7 +88,7 @@ _gur_mini() {
           '.direct_asset_url')
   )
   for _url in "${_urls[@]}"; do
-    _file="$( \
+    _file="$(
       basename \
         "${_url}")"
     _output_file="$(pwd)/${_file}"
@@ -140,7 +140,7 @@ _fur_mini() {
     --single-branch
     --depth=1
   )
-  _tmp_dir="$( \
+  _tmp_dir="$(
     mktemp \
       "${_mktemp_opts[@]}")"
   git \
@@ -226,14 +226,14 @@ _requirements() {
     "/home/user/${_pkgname}/PKGBUILD" \
     "_git_http" || \
     true
-  _git_http="$( \
+  _git_http="$(
     recipe-get \
       "/home/user/${_pkgname}/PKGBUILD" \
       "_git_http" || \
       true)"
   # ohoh
   if [[ "${_git_http}" == "gitlab" ]]; then
-    _commit="$( \
+    _commit="$(
       recipe-get \
         "/home/user/${_pkgname}/PKGBUILD" \
         "_commit")"
@@ -241,7 +241,7 @@ _requirements() {
       "${ns}" \
       "${_pkgname}" \
       "${_commit}"
-    _docs_commit="$( \
+    _docs_commit="$(
       recipe-get \
         "/home/user/${_pkgname}/PKGBUILD" \
         "_docs_commit")"
@@ -280,8 +280,9 @@ _build() {
   _pkgname="${pkg%-ur}"
   _work_dir="${_home}/ramdisk/${_pkgname}-build"
   _pkgbuild="${_home}/${_pkgname}/PKGBUILD"
-  mount  | \
-    grep "${_home}/ramdisk"
+  mount  |
+    grep \
+      "${_home}/ramdisk"
   _reallymakepkg_opts+=(
     -v
     -w
@@ -393,7 +394,7 @@ _build() {
     in "${_home}/${_pkgname}/"*".pkg.tar."*; do
     mv \
       "${_file}" \
-      "dogeos-gnu-$( \
+      "dogeos-gnu-$(
         basename \
           "${_file}")"
   done
@@ -441,7 +442,7 @@ _gl_dl_retrieve() {
     _output_file \
     _msg=() \
     _token_missing
-  _output_file="${HOME}/$( \
+  _output_file="${HOME}/$(
     basename \
       "${_url#https://}")"
   _token_private="${HOME}/.config/gitlab.com/default.txt"
@@ -470,7 +471,7 @@ _gl_dl_retrieve() {
     exit \
       1
   fi
-  _token="PRIVATE-TOKEN: $( \
+  _token="PRIVATE-TOKEN: $(
     cat \
       "${_token_private}")"
   _curl_opts+=(
@@ -500,7 +501,7 @@ _mem_free_get() {
 }
 
 _show_config() {
-  _mem_free="$( \
+  _mem_free="$(
     _mem_free_get)"
   echo \
     "Free memory: '${_mem_free}'"
