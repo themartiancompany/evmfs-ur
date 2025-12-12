@@ -274,6 +274,8 @@ _build() {
     -v
     -p
       "pacman"
+    -t
+      "ci"
   )
   for _depend in "${_makedepends[@]}"; do
     _msg=(
@@ -290,7 +292,7 @@ _build() {
       true
     _msg=(
       "Installing makedepends"
-      "'${_makedepends[*]}' with"
+      "'${_depend}' with"
       "fur."
     )
     echo \
