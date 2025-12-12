@@ -205,12 +205,18 @@ _requirements() {
     "${_fur_release_latest}" \
     "n" || \
   true
-  _gur_mini \
-    "${ns}" \
-    "gur" \
-    "${_gur_release_latest}" \
-    "n" || \
-  true
+  # _gur_mini \
+  #   "${ns}" \
+  #   "gur" \
+  #   "${_gur_release_latest}" \
+  #   "n" || \
+  # true
+  _fur_opts+=(
+    -t
+      "ci"
+    -m
+      "gitlab"
+  )
   fur \
     "${_fur_opts[@]}" \
     "gur"
