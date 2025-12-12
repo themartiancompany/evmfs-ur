@@ -212,8 +212,8 @@ _requirements() {
   #   "n" || \
   # true
   _fur_opts+=(
-    -t
-      "ci"
+    # -t
+    #   "ci"
     -m
       "gitlab"
   )
