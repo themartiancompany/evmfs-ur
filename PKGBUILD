@@ -164,6 +164,7 @@ if [[ "${_os}" == 'Android' ]]; then
   )
 fi
 makedepends=(
+  "binutils"
   'make'
 )
 if [[ "${_git}" == "true" ]]; then
