@@ -39,10 +39,16 @@ _gur_mini() {
     _ns="${1}" \
     _pkg="${2}" \
     _release="${3}" \
+    _depends_skip \
+    _pacman_opts=()
     _api \
     _url \
     _msg=() \
     _sig
+  _depends_skip="y"
+  if (( 3 < "${#}" )); then
+    _depends_skip="${4}"
+  fi
   _msg=(
     "Downloading '${_pkg}'"
     "binary CI release"
@@ -58,6 +64,16 @@ _gur_mini() {
       "${HOME}/${_ns}%2F${_pkg}-ur" | \
       jq \
         '.id')"
+  if [[ "${_project_id}" == "null" ]]; then
+    _msg=(
+      "The project '${_pkg}-ur' does not exist"
+      "in namespace '${_ns}'."
+    )
+    echo \
+      "${_msg[*]}"
+    return \
+      1
+  fi
   _api="https://gitlab.com/api/v4"
   _url="${_api}/projects/${_project_id}/releases"
   _gl_dl_retrieve \
@@ -87,9 +103,17 @@ _gur_mini() {
   rm \
     -rf \
     "${HOME}/"*".pkg.tar.xz.sig"
+  pacman_opts+=(
+    -U
+    --noconfirm
+  )
+  if [[ "${_depends_skip}" == "y" ]]; then
+    pacman_opts+=(
+      -dd
+    )
+  fi
   pacman \
-    -Udd \
-    --noconfirm \
+    "${_pacman_opts[@]}" \
     "${HOME}/"*".pkg.tar.xz"
 }
 
