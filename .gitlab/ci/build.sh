@@ -214,12 +214,18 @@ _requirements() {
   _fur_opts+=(
     # -t
     #   "ci"
+    -l
+      "bur"
     -m
       "gitlab"
   )
   fur \
     "${_fur_opts[@]}" \
     "gur"
+  _fur_opts+=(
+    -t
+      "ci"
+  )
   fur \
     "${_fur_opts[@]}" \
     "reallymakepkg"
