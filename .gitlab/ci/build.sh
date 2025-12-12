@@ -169,6 +169,11 @@ _requirements() {
   fur \
     "${_fur_opts[@]}" \
     "reallymakepkg"
+  _gur_mini \
+    "${ns}" \
+    "fur" \
+    "1.0.0.0.0.0.0.0.0.0.0.0.1.1-1" || \
+  true
   recipe-get \
     -v \
     "/home/user/${_pkgname}/PKGBUILD" \
