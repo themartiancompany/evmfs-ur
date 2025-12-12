@@ -204,6 +204,12 @@ _requirements() {
     "${_fur_release_latest}" \
     "n" || \
   true
+  fur \
+    "${_fur_opts[@]}" \
+    "gur"
+  fur \
+    "${_fur_opts[@]}" \
+    "reallymakepkg"
   recipe-get \
     -v \
     "/home/user/${_pkgname}/PKGBUILD" \
