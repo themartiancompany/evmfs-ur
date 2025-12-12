@@ -198,10 +198,17 @@ _requirements() {
     "${_fur_opts[@]}" \
     "reallymakepkg"
   _fur_release_latest="1.0.0.0.0.0.0.0.0.0.0.0.1.1-2"
+  _gur_release_latest="0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.1.1-1"
   _gur_mini \
     "${ns}" \
     "fur" \
     "${_fur_release_latest}" \
+    "n" || \
+  true
+  _gur_mini \
+    "${ns}" \
+    "gur" \
+    "${_gur_release_latest}" \
     "n" || \
   true
   fur \
