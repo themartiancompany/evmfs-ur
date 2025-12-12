@@ -103,15 +103,15 @@ _gur_mini() {
   rm \
     -rf \
     "${HOME}/"*".pkg.tar.xz.sig"
-  pacman_opts+=(
+  _pacman_opts+=(
     -U
   )
   if [[ "${_depends_skip}" == "y" ]]; then
-    pacman_opts+=(
+    _pacman_opts+=(
       -dd
     )
   fi
-  pacman_opts+=(
+  _pacman_opts+=(
     --noconfirm
   )
   pacman \
