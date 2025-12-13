@@ -103,7 +103,7 @@ fi
 pkgver="0.0.0.0.0.0.0.1.1.1"
 _commit="8f9a3ffd961cc84eaa6534dc80f05a5998bb044d"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
-pkgrel=31
+pkgrel=32
 _pkgdesc=(
   "Reference implementation of the"
   "Ethereum Virtual Machine file system (EVMFS),"

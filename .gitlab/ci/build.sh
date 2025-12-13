@@ -275,7 +275,15 @@ _build() {
     _pkgbuild \
     _pkgname \
     _resolve_flag \
-    _work_dir
+    _work_dir \
+    _separators=()
+  _separators=(
+    "<"
+    ">"
+    "<="
+    ">="
+    "="
+  )
   _home="/home/user"
   _pkgname="${pkg%-ur}"
   _work_dir="${_home}/ramdisk/${_pkgname}-build"
@@ -297,17 +305,15 @@ _build() {
         "makedepends"); do
     _resolve_flag="false"
     _depend_target="${_depend}"
-    if [[ "${_depend}" == *"<"* ]]; then
-      _depend_name="${_depend%<*}"
-      _depend_pkgver="${_depend#${_depend_name}}"
-      _resolve_flag="true"
-      _depend_target="${_depend_name}"
-    elif [[ "${_depend}" == *"="* ]]; then
-      _depend_name="${_depend%=*}"
-      _depend_pkgver="${_depend#=${_depend_name}}"
-      _resolve_flag="true"
-      _depend_target="${_depend_name}"
-    fi
+    for _sep in "${_separators[@]}"; do
+      if [[ "${_depend}" == *"${_sep}"* ]]; then
+        _depend_name="${_depend%${_sep}*}"
+        _depend_pkgver="${_depend#${_depend_name}}"
+        _resolve_flag="true"
+        _depend_target="${_depend_name}"
+        break
+      fi
+    done
     if [[ "${_resolve_flag}" == "true" ]]; then
       _msg=(
         "It is requested version"
