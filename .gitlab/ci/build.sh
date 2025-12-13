@@ -333,8 +333,6 @@ _build() {
     -v
     -p
       "pacman"
-    -t
-      "ci"
   )
   for _depend in "${_makedepends[@]}"; do
     _msg=(
@@ -358,6 +356,26 @@ _build() {
       "${_msg[*]}"
     fur \
       "${_fur_opts[@]}" \
+      -t \
+        "ci" \
+      "${_depend}" ||
+    fur \
+      "${_fur_opts[@]}" \
+      -t \
+        "tree" \
+      -m \
+        "gitlab" \
+      -l \
+        "bur" \
+      "${_depend}" ||
+    fur \
+      "${_fur_opts[@]}" \
+      -t \
+        "tree" \
+      -m \
+        "github" \
+      -l \
+        "fur" \
       "${_depend}" ||
     true
   done
