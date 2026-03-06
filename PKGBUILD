@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0
+# SPDX-License-Identifier: AGPL-3.
 
 #    ----------------------------------------------------------------------
 #    Copyright © 2024, 2025  Pellegrino Prevete
@@ -28,82 +28,82 @@
 #    <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 
 _os="$( \
-  uname \
-    -o)"
+        uname \
+        -o)"
 _evmfs_available="$( \
-  command \
-    -v \
-    "evmfs" || \
-    true)"
+        command \
+        -v \
+        "evmfs" || \
+        true)"
 if [[ ! -v "_evmfs" ]]; then
-  if [[ "${_evmfs_available}" != "" ]]; then
-    _evmfs="true"
-  elif [[ "${_evmfs_available}" == "" ]]; then
-    _evmfs="false"
-  fi
+        if [[ "${_evmfs_available}" != "" ]]; then
+                _evmfs="true"
+        elif [[ "${_evmfs_available}" == "" ]]; then
+                _evmfs="false"
+        fi
 fi
 if [[ ! -v "_offline" ]]; then
-  _offline="false"
+        _offline="false"
 fi
 if [[ ! -v "_tag_name" ]]; then
-  _tag_name="commit"
+        _tag_name="commit"
 fi
 if [[ ! -v "_git" ]]; then
-  _git="false"
+        _git="false"
 fi
 if [[ ! -v "_git_http" ]]; then
-  _git_http="github"
+        _git_http="github"
 fi
 if [[ ! -v "_docs" ]]; then
-  _docs="true"
+        _docs="true"
 fi
 if [[ ! -v "_contracts" ]]; then
-  _contracts="true"
+        _contracts="true"
 fi
 if [[ "${_git}" == "true" ]]; then
-  if [[ "${_evmfs}" == "true" ]]; then
-    _archive_format="bundle"
-  elif [[ "${_evmfs}" == "false" ]]; then
-    _archive_format="git"
-  fi
+        if [[ "${_evmfs}" == "true" ]]; then
+                _archive_format="bundle"
+        elif [[ "${_evmfs}" == "false" ]]; then
+                _archive_format="git"
+        fi
 elif [[ "${_git}" == "false" ]]; then
-  if [[ "${_git_http}" == "gitlab" ]]; then
-    _archive_format="tar.gz"
-  elif [[ "${_git_http}" == "github" ]]; then
-    if [[ "${_tag_name}" == "pkgver" ]]; then
-      _archive_format="tar.gz"
-    elif [[ "${_tag_name}" == "commit" ]]; then
-      _archive_format="zip"
-    fi
-  fi
+        if [[ "${_git_http}" == "gitlab" ]]; then
+                _archive_format="tar.gz"
+        elif [[ "${_git_http}" == "github" ]]; then
+                if [[ "${_tag_name}" == "pkgver" ]]; then
+                        _archive_format="tar.gz"
+                elif [[ "${_tag_name}" == "commit" ]]; then
+                        _archive_format="zip"
+                fi
+        fi
 fi
 if [[ ! -v "_solc" ]]; then
-  _solc="true"
+        _solc="true"
 fi
 if [[ ! -v "_hardhat" ]]; then
-  _hardhat="false"
+        _hardhat="false"
 fi
 _proj="hip"
 _py="python"
 _pkg=evmfs
 pkgbase="${_pkg}"
 pkgname=(
-  "${_pkg}"
+        "${_pkg}"
 )
 if [[ "${_contracts}" == "true" ]]; then
-  pkgname+=(
-    "${_pkg}-contracts"
-  )
+        pkgname+=(
+                "${_pkg}-contracts"
+        )
 fi
 if [[ "${_docs}" == "true" ]]; then
-  pkgname+=(
-    "${_pkg}-docs"
-  )
+        pkgname+=(
+                "${_pkg}-docs"
+        )
 fi
 pkgver="0.0.0.0.0.0.0.1.1.1"
 _commit="8f9a3ffd961cc84eaa6534dc80f05a5998bb044d"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
-pkgrel=42
+pkgrel=43
 _pkgdesc=(
   "Reference implementation of the"
   "Ethereum Virtual Machine file system (EVMFS),"
