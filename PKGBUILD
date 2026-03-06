@@ -81,7 +81,7 @@ if [[ ! -v "_solc" ]]; then
   _solc="true"
 fi
 if [[ ! -v "_hardhat" ]]; then
-  _hardhat="true"
+  _hardhat="false"
 fi
 _proj="hip"
 _py="python"
@@ -103,7 +103,7 @@ fi
 pkgver="0.0.0.0.0.0.0.1.1.1"
 _commit="8f9a3ffd961cc84eaa6534dc80f05a5998bb044d"
 _docs_commit="a98856dc95664b9da8fc52448224c8b61dc34c23"
-pkgrel=38
+pkgrel=40
 _pkgdesc=(
   "Reference implementation of the"
   "Ethereum Virtual Machine file system (EVMFS),"
@@ -188,9 +188,9 @@ if [[ "${_contracts}" == "true" ]]; then
   )
   if [[ "${_solc}" == "true" ]]; then
     makedepends+=(
-      "solidity=0.7.5"
-      "solidity=0.8.24"
-      "solidity=0.8.28"
+      "solidity0.7.5"
+      "solidity0.8.24"
+      "solidity0.8.28"
     )
   fi
   if [[ "${_hardhat}" == "true" ]]; then
